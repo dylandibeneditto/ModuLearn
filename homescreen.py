@@ -22,7 +22,7 @@ def homescreen_view(selected):
         Layout(Align.left("[#000000 on #ffffff] Settings " if selected == 2 else " [bold]Settings "), size=2),
         Layout(Align.left("[#000000 on #ffffff] Credits " if selected == 3 else " [bold]Credits "), size=4),
         Layout(Align.left("[rgb(120,120,120) italic] ↑↓ move | ⮐  select | 'q' quit "), size=1),
-    )
+    ) 
     
     console.height -= 3
     console.clear()
