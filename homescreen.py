@@ -5,7 +5,7 @@ from rich.theme import Theme
 from rich.text import Text
 from rich.align import Align
 from rich.layout import Layout
-from utils.getKey import getKey
+from utils.get_key import getKey
 from utils.theme import main_theme
 import random
 
@@ -44,7 +44,7 @@ def homescreen():
             selected = (selected - 1) % 5
         elif key=="B":
             selected = (selected + 1) % 5
-        elif key=="q":
+        elif key=="q" or key=="Q":
             over = True
         elif key=="\r" or key=="\n":
             over = True

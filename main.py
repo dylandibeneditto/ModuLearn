@@ -4,37 +4,36 @@ from rich.console import Console
 from rich.theme import Theme
 from rich.text import Text
 from rich.align import Align
-from utils.getKey import getKey
+from utils.get_key import getKey
 from utils.theme import main_theme
 import time
 from os import system, name
 
 from homescreen import homescreen
+from study import study
 
 console = Console(theme=main_theme)
 
-flipped = False
-over = True
-
-console.clear()
-
-print(homescreen())
-
-def print_flashcard(text, term):
-    print(Align.center(Panel(Align.center(Text(text, justify="center"), vertical="middle"), title=term, height=(int(console.height*(3/8))), width=(int(console.width*(2/3))), title_align="left"), vertical="middle", height=(int(console.height/2))))
+over = False
 
 while(not over):
-    console.rule("Flashcards")
-    if not flipped:
-        print_flashcard("What is the powerhouse of the cell?", "term")
-    else:
-        print_flashcard("Mitochondria", "definition")
-    
-    key = getKey()
-    
-    if key=="f":
-        flipped = not flipped
-    elif key=="q":
-        over = True
+
     console.clear()
-        
+
+    homescreen_to = homescreen()
+
+    match homescreen_to:
+        case -1:
+            over = True
+        case 0:
+            study_to = study()
+            if study_to == -1:
+                over = True
+        case 1:
+            print("wip")
+        case 2:
+            print("wip")
+        case 3:
+            print("wip")
+        case 4:
+            print("wip")
