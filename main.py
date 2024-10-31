@@ -5,12 +5,13 @@ from rich.theme import Theme
 from rich.text import Text
 from rich.align import Align
 from utils.getKey import getKey
+from utils.theme import main_theme
 import time
 from os import system, name
 
 from homescreen import homescreen
 
-console = Console()
+console = Console(theme=main_theme)
 
 flipped = False
 over = True
