@@ -1,6 +1,6 @@
 import sys, tty, termios
 
-def getKey():
+def get_key():
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
     try:

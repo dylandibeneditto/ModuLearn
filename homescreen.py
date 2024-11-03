@@ -5,7 +5,7 @@ from rich.theme import Theme
 from rich.text import Text
 from rich.align import Align
 from rich.layout import Layout
-from utils.get_key import getKey
+from utils.get_key import get_key
 from utils.theme import main_theme
 import random
 
@@ -39,7 +39,7 @@ def homescreen():
     over = False
     while(not over):
         homescreen_view(selected)
-        key = getKey()
+        key = get_key()
         if key=="A":
             selected = (selected - 1) % 5
         elif key=="B":

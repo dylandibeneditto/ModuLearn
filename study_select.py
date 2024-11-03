@@ -1,0 +1,83 @@
+from rich import print
+from rich.panel import Panel
+from rich.console import Console
+from rich.theme import Theme
+from rich.align import Align
+from rich.layout import Layout
+from rich.text import Text
+
+from utils.get_key import get_key
+from utils.set_helper import SetHelper
+from utils.theme import main_theme
+
+console = Console(theme=main_theme)
+console.height -= 2
+
+def study_select_view(sets, selected, page, items_per_page):
+    layout = Layout()
+    layout.split_column()
+    
+    start_index = page * items_per_page
+    end_index = min(start_index + items_per_page, len(sets))
+
+    if len(sets) > 0:
+        for i in range(start_index, end_index):
+            s = sets[i]
+            set_name = f"[a1fill] {s['set_name']} " if selected == i else f" {s['set_name']} "
+            description = f"[seci]  {s['description']}"
+
+            item_layout = Layout(size=3)
+            item_layout.split_column(
+                Layout(set_name, size=1),
+                Layout(description, size=2)
+            )
+            layout.add_split(item_layout)
+        
+        console.print(Align.center(Align.left(layout), width=int(console.width * (2 / 3))))
+
+        page_info = f"[a1]{page + 1} [sec]of [a1]{((len(sets) - 1) // items_per_page) + 1}"
+        console.print(Align.center(page_info, vertical="bottom"))
+
+        return 0
+    else:
+        console.print(Align.center("[seci]You have no sets. Press 'q' to quit and go to 'edit' to create a new set."))
+        return -1
+
+def study_select():
+    helper = SetHelper()
+    sets = helper.get_sets()
+    
+    over = False
+    selected = 0
+    page = 0
+    items_per_page = (console.height // 4)-1
+
+    while not over:
+        console.clear()
+        study_select_res = study_select_view(sets, selected, page, items_per_page)
+        key = get_key()
+        if key == "q":
+            return -1
+        elif key == "Q":
+            return -2
+        if study_select_res != -1:
+            if key == "A":
+                if selected > 0:
+                    selected -= 1
+                else:
+                    selected = len(sets) - 1
+                page = selected // items_per_page
+            elif key == "B":
+                if selected < len(sets) - 1:
+                    selected += 1
+                else:
+                    selected = 0
+                page = selected // items_per_page
+            elif key == "n" and (page + 1) * items_per_page < len(sets):
+                page += 1
+                selected = page * items_per_page
+            elif key == "p" and page > 0:
+                page -= 1
+                selected = page * items_per_page
+            elif key == "\n" or key == "\r":
+                return selected

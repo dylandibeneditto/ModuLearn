@@ -4,7 +4,7 @@ from rich.console import Console
 from rich.theme import Theme
 from rich.text import Text
 from rich.align import Align
-from utils.get_key import getKey
+from utils.get_key import get_key
 from utils.theme import main_theme
 import time
 from os import system, name
