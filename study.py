@@ -12,10 +12,7 @@ from utils.theme import main_theme
 from study_select import study_select
 
 def study():
-    over = False
-    
-    while not over:
-        selected = study_select()
-        if selected < 0:
-            return selected
+    selected = study_select()
+    if selected < 0:
+        return selected
             

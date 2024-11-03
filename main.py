@@ -27,7 +27,7 @@ while(not over):
             over = True
         case 0:
             study_to = study()
-            if study_to == -1:
+            if study_to == -2:
                 over = True
         case 1:
             print("wip")

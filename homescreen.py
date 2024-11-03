@@ -17,21 +17,27 @@ rand_color = str(random.randrange(1,5))
 def homescreen_view(selected):
     console = Console(theme=main_theme)
 
+    keep_layout = console.height >= 22
+
     layout = Layout()
-    layout.split_column(
-        Layout(Align.center("[bold]\n\n\nModuLearn [a"+rand_color+"]v1.0.0"), size=4),
-        Layout(Align.center("[seci]A smarter approach to memorization."), size=3),
-        Layout(Align.left("[a1fill] Study " if selected == 0 else " [bold]Study "), size=2),
-        Layout(Align.left("[a2fill] Edit " if selected == 1 else " [bold]Edit "), size=2),
-        Layout(Align.left("[a3fill] Stats " if selected == 2 else " [bold]Stats "), size=2),
-        Layout(Align.left("[a4fill] Settings " if selected == 3 else " [bold]Settings "), size=2),
-        Layout(Align.left("[a5fill] Credits " if selected == 4 else " [bold]Credits "), size=4),
-        Layout(Align.left("[seci] ↑↓ move | ⮐  select | 'q' quit "), size=1),
+    if not keep_layout:
+        layout.split_row()
+    else:
+        layout.split_column()
+    layout.add_split(
+        Layout(Align.center("[bold]"+("\n\n\n" if keep_layout else "")+"ModuLearn [a"+rand_color+"]v1.0.0"), size=4 if keep_layout else None),
+        Layout(Align.center("[seci]A smarter approach to memorization."), size=3 if keep_layout else 0),
+        Layout(Align.left("[a1fill] Study " if selected == 0 else " [bold]Study "), size=2 if keep_layout else None),
+        Layout(Align.left("[a2fill] Edit " if selected == 1 else " [bold]Edit "), size=2 if keep_layout else None),
+        Layout(Align.left("[a3fill] Stats " if selected == 2 else " [bold]Stats "), size=2 if keep_layout else None),
+        Layout(Align.left("[a4fill] Settings " if selected == 3 else " [bold]Settings "), size=2 if keep_layout else None),
+        Layout(Align.left("[a5fill] Credits " if selected == 4 else " [bold]Credits "), size=3 if keep_layout else None),
+        Layout(Align.left("[seci] ↑↓ move | ⮐  select | 'q' quit "), size=1 if keep_layout else None),
     ) 
     
     console.height -= 3
     console.clear()
-    console.print(Align.center(Align.center(layout, width=40, height=int(console.height/2)), vertical="middle"))
+    console.print(Align.center(Align.center(layout, width=40 if keep_layout else console.width, height=console.height//2 if keep_layout else console.height), vertical="middle"))
 
 
 def homescreen():

@@ -10,16 +10,16 @@ from utils.get_key import get_key
 from utils.set_helper import SetHelper
 from utils.theme import main_theme
 
-console = Console(theme=main_theme)
-console.height -= 2
-
 def study_select_view(sets, selected, page, items_per_page):
+    console = Console(theme=main_theme)
     layout = Layout()
     layout.split_column()
+    console.height -= 3
     
     start_index = page * items_per_page
     end_index = min(start_index + items_per_page, len(sets))
 
+    console.print(Align.center("[sec]ModuLearn > [a1]Set Select"))
     if len(sets) > 0:
         for i in range(start_index, end_index):
             s = sets[i]
@@ -46,14 +46,15 @@ def study_select_view(sets, selected, page, items_per_page):
 def study_select():
     helper = SetHelper()
     sets = helper.get_sets()
+    console = Console()
     
     over = False
     selected = 0
     page = 0
-    items_per_page = (console.height // 4)-1
 
     while not over:
         console.clear()
+        items_per_page = ((console.height-3) // 3)
         study_select_res = study_select_view(sets, selected, page, items_per_page)
         key = get_key()
         if key == "q":
