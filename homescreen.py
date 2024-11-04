@@ -32,7 +32,7 @@ def homescreen_view(selected):
         Layout(Align.left("[a3fill] Stats " if selected == 2 else " [bold]Stats "), size=2 if keep_layout else None),
         Layout(Align.left("[a4fill] Settings " if selected == 3 else " [bold]Settings "), size=2 if keep_layout else None),
         Layout(Align.left("[a5fill] Credits " if selected == 4 else " [bold]Credits "), size=3 if keep_layout else None),
-        Layout(Align.left("[seci] ↑↓ move | ⮐  select | 'q' quit "), size=1 if keep_layout else None),
+        Layout(Align.left("[seci] [white bold]↑↓[/white bold] move | [white bold]⮐ [/white bold][seci]/[white bold]→[/white bold] select | [white bold]←[/white bold] back | [white bold]q[/white bold] quit"), size=1 if keep_layout else None),
     ) 
     
     console.height -= 3
@@ -52,7 +52,7 @@ def homescreen():
             selected = (selected + 1) % 5
         elif key=="q" or key=="Q":
             over = True
-        elif key=="\r" or key=="\n":
+        elif key=="\r" or key=="\n" or key=="C":
             over = True
             return selected
     return -1

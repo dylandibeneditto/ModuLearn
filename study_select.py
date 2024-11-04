@@ -19,7 +19,7 @@ def study_select_view(sets, selected, page, items_per_page):
     start_index = page * items_per_page
     end_index = min(start_index + items_per_page, len(sets))
 
-    console.print(Align.center("[sec]ModuLearn > [a1]Set Select"))
+    console.print(Align.center("[sec]ModuLearn / [a1]Set Select"))
     if len(sets) > 0:
         for i in range(start_index, end_index):
             s = sets[i]
@@ -57,9 +57,10 @@ def study_select():
         items_per_page = ((console.height-3) // 3)
         study_select_res = study_select_view(sets, selected, page, items_per_page)
         key = get_key()
-        if key == "q":
+        print(key)
+        if key == "D":
             return -1
-        elif key == "Q":
+        elif key == "q":
             return -2
         if study_select_res != -1:
             if key == "A":
@@ -74,11 +75,5 @@ def study_select():
                 else:
                     selected = 0
                 page = selected // items_per_page
-            elif key == "n" and (page + 1) * items_per_page < len(sets):
-                page += 1
-                selected = page * items_per_page
-            elif key == "p" and page > 0:
-                page -= 1
-                selected = page * items_per_page
-            elif key == "\n" or key == "\r":
+            elif key == "\n" or key == "\r" or key == "C":
                 return selected
