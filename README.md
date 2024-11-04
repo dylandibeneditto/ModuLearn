@@ -9,11 +9,12 @@ ModuLearn is a modern TUI (Text UI) application designed to improve the learning
 # Features
 
 - responsive and minimalist TUI design
+- completely user customizable color schemes
 - study mode for learning
-- edit mode to create new sets and add onto existing ones
-- stats screen to learn from study tendencies
 - 4 built-in algorithms
     - Flashcards
     - Learn
     - Test
     - Match
+- edit mode to create new sets and add onto existing ones
+- stats screen to learn from study tendencies
