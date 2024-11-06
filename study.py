@@ -15,10 +15,10 @@ def study_set_view(set, index, flip, all_flip):
     console = Console(theme=main_theme)
     console.height -= 2
     console.clear()
-    console.print(Align.center("[sec]ModuLearn / Set Select / [a1]" + set["set_name"]))
+    console.print(Align.center("[sec]ModuLearn / Set Select / [a1]" + set.name))
 
 
-    if len(set["cards"]) > 0:
+    if set.cards_length > 0:
         panel_height = 5 if console.width < 208 else 4
 
         main_layout = Layout()
@@ -33,9 +33,11 @@ def study_set_view(set, index, flip, all_flip):
             Layout(name="stats", ratio=1)
         )
 
+        card = set.get_card(index)
+
         card_review = Layout()
         card_review.split_column(
-            Layout(Panel(Align.center("[white]"+(set["cards"][index]["answer"] if flip else set["cards"][index]["question"]), vertical="middle"), title="definition" if flip else "term", title_align="left", style="sec"),size=console.height - panel_height - 2),
+            Layout(Panel(Align.center("[white]"+(card.definition if flip else card.term), vertical="middle"), title="definition" if flip else "term", title_align="left", style="sec"),size=console.height - panel_height - 2),
             Layout(name="card_review_toolbar", size=2)
         )
 
@@ -43,7 +45,7 @@ def study_set_view(set, index, flip, all_flip):
         card_review_toolbar = Layout()
         card_review_toolbar.split_row(
             Layout("  [sec]\[w] [/sec][sec]show [white bold]"+("definition" if all_flip else "term")+"[/white bold] first", size=30),
-            Layout(Align.center("[sec] < [/sec][a1]" + str(index + 1) + "[/a1][white] / [/white][sec]" + str(len(set["cards"])) + " >\n[sec]\[a]     \[d]", vertical="middle"), ratio=1),
+            Layout(Align.center("[sec] < [/sec][a1]" + str(index + 1) + "[/a1][white] / [/white][sec]" + str(set.cards_length) + " >\n[sec]\[a]     \[d]", vertical="middle"), ratio=1),
             Layout(Align.right("[sec]\[s] [/sec][" + ("bold" if flip else "sec") + "]flip card  "), size=30)
         )
 
@@ -71,7 +73,9 @@ def study_set(set):
     card_review_index = 0
     card_review_all_flip = False
     card_review_flip = card_review_all_flip
-    set_ref = SetHelper().get_sets()[set]
+    set_ref = SetHelper().get_set(set) # set is the index
+    
+    set_ref.get_card(card_review_index).view()
     
     while not over:
         study_set_view(set_ref, card_review_index, card_review_flip, card_review_all_flip)
@@ -81,11 +85,13 @@ def study_set(set):
         elif key == "s":
             card_review_flip = not card_review_flip
         elif key == "d":
-            card_review_index = (card_review_index+1) % len(set_ref["cards"])
+            card_review_index = (card_review_index+1) % set_ref.cards_length
             card_review_flip = card_review_all_flip
+            set_ref.get_card(card_review_index).view()
         elif key == "a":
-            card_review_index = (card_review_index-1) % len(set_ref["cards"])
+            card_review_index = (card_review_index-1) % set_ref.cards_length
             card_review_flip = card_review_all_flip
+            set_ref.get_card(card_review_index).view()
         elif key == "w":
             card_review_all_flip = not card_review_all_flip
         elif key == "q":

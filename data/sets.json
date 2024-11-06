@@ -5,20 +5,18 @@
             "description": "Fundamental concepts in biology, including cell structure, DNA, and evolution.",
             "cards": [
                 {
-                    "card_id": "1",
                     "question": "What is the basic unit of life?",
                     "answer": "The cell",
-                    "last_reviewed": "2024-10-27",
-                    "review_count": 3,
-                    "difficulty": "easy"
+                    "last_viewed": "2024-11-06",
+                    "view_count": 13,
+                    "mastery_count": 0
                 },
                 {
-                    "card_id": "2",
                     "question": "What is DNA?",
                     "answer": "Deoxyribonucleic acid, the molecule that carries genetic information.",
-                    "last_reviewed": "2024-10-27",
-                    "review_count": 2,
-                    "difficulty": "medium"
+                    "last_viewed": "2024-11-06",
+                    "view_count": 12,
+                    "mastery_count": 0
                 }
             ]
         }
