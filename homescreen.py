@@ -32,12 +32,12 @@ def homescreen_view(selected):
         Layout(Align.left("[a3fill] Stats " if selected == 2 else " [bold]Stats "), size=2 if keep_layout else None),
         Layout(Align.left("[a4fill] Settings " if selected == 3 else " [bold]Settings "), size=2 if keep_layout else None),
         Layout(Align.left("[a5fill] Credits " if selected == 4 else " [bold]Credits "), size=3 if keep_layout else None),
-        Layout(Align.left("[seci] [white bold]↑↓[/white bold] move | [white bold]⮐ [/white bold][seci]/[white bold]→[/white bold] select | [white bold]←[/white bold] back | [white bold]q[/white bold] quit"), size=1 if keep_layout else None),
+        Layout(Align.center("[seci] [white bold]↑↓[/white bold] move  |  [white bold]⮐ [/white bold][seci]/[white bold]→[/white bold] select  |  [white bold]←[/white bold] back  |  [white bold]\[q][/white bold] quit"), size=1 if keep_layout else None),
     ) 
     
     console.height -= 3
     console.clear()
-    console.print(Align.center(Align.center(layout, width=40 if keep_layout else console.width, height=console.height//2 if keep_layout else console.height), vertical="middle"))
+    console.print(Align.center(Align.center(layout, width=50 if keep_layout else console.width, height=console.height//2 if keep_layout else console.height), vertical="middle"))
 
 
 def homescreen():
