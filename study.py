@@ -11,8 +11,7 @@ from utils.set_helper import SetHelper
 from utils.theme import main_theme
 from study_select import study_select
 
-
-def study_set_view(set):
+def study_set_view(set, index, flip):
     console = Console(theme=main_theme)
     console.height -= 2
     console.clear()
@@ -22,9 +21,22 @@ def study_set_view(set):
 
     main_layout = Layout()
     main_layout.split_column(
-        Layout(size=console.height - panel_height),
+        Layout(name="set_data", size=console.height - panel_height),
         Layout(name="action_layout", size=panel_height)
     )
+
+    set_data = Layout()
+    set_data.split_row(
+        Layout(name="card_review", ratio=2),
+        Layout(name="stats", ratio=1)
+    )
+    
+    card_review = Layout()
+    card_review.split_column(
+        Layout(Panel(Align.center(set["cards"][index]["answer"] if flip else set["cards"][index]["question"], vertical="middle")),size=console.height - panel_height - 3),
+        Layout(size=3)
+    )
+    
 
     action_layout = Layout()
     action_layout.split_row(
@@ -35,6 +47,8 @@ def study_set_view(set):
         Layout(Panel("Custom\n[seci]Use a custom algorithm.", title="[5]"))
     )
 
+    set_data["card_review"].update(card_review)
+    main_layout["set_data"].update(set_data)
     main_layout["action_layout"].update(action_layout)
 
     console.print(main_layout)
@@ -42,11 +56,23 @@ def study_set_view(set):
 def study_set(set):
     over = False
     
+    card_review_index = 0
+    card_review_flip = False
+    set_ref = SetHelper().get_sets()[set]
+    
     while not over:
-        study_set_view(SetHelper().get_sets()[set])
+        study_set_view(set_ref, card_review_index, card_review_flip)
         key = get_key()
         if key == "D":
             return 0
+        elif key == "s":
+            card_review_flip = not card_review_flip
+        elif key == "d":
+            card_review_index = (card_review_index+1) % len(set_ref["cards"])
+            card_review_flip = False
+        elif key == "s":
+            card_review_index = (card_review_index-1) % len(set_ref["cards"])
+            card_review_flip = False
         elif key == "q":
             return -1
         elif key == "1":
