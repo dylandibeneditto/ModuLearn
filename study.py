@@ -42,15 +42,9 @@ def study_set_view(set, index, flip, all_flip):
 
         card_review_toolbar = Layout()
         card_review_toolbar.split_row(
-            Layout("  [sec]\[w] [/sec][sec]show [white bold]"+("definition" if all_flip else "term")+"[/white bold] first", size=30),  # Left item with fixed size
-            Layout(
-                Align.center(
-                    "[sec] < [/sec][a1]" + str(index + 1) + "[/a1][white] / [/white][sec]" + str(len(set["cards"])) + " >\n[sec]\[a]     \[d]",
-                    vertical="middle"
-                ),
-                ratio=1  # Center item with flexible size for true centering
-            ),
-            Layout(Align.right("[sec]\[s] [/sec][" + ("bold" if flip else "sec") + "]flip card  "), size=30)  # Right item with fixed size
+            Layout("  [sec]\[w] [/sec][sec]show [white bold]"+("definition" if all_flip else "term")+"[/white bold] first", size=30),
+            Layout(Align.center("[sec] < [/sec][a1]" + str(index + 1) + "[/a1][white] / [/white][sec]" + str(len(set["cards"])) + " >\n[sec]\[a]     \[d]", vertical="middle"), ratio=1),
+            Layout(Align.right("[sec]\[s] [/sec][" + ("bold" if flip else "sec") + "]flip card  "), size=30)
         )
 
         action_layout = Layout()
