@@ -70,7 +70,7 @@ def study_set(set):
         elif key == "d":
             card_review_index = (card_review_index+1) % len(set_ref["cards"])
             card_review_flip = False
-        elif key == "s":
+        elif key == "a":
             card_review_index = (card_review_index-1) % len(set_ref["cards"])
             card_review_flip = False
         elif key == "q":
