@@ -40,7 +40,7 @@ def study_select_view(sets, selected, page, items_per_page):
 
         return 0
     else:
-        console.print(Align.center("[seci]You have no sets. Press 'q' to quit and go to 'edit' to create a new set."))
+        console.print(Align.center("\n[seci]You have no sets. Please go back and go to 'edit' to create a new set.", width=60))
         return -1
 
 def study_select():
