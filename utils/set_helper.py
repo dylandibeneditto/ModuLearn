@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 import json
 
 def save_json(data):
@@ -24,7 +24,7 @@ class Card:
         
     def view(self, increment=1):
         self.__json["flashcard_sets"][self.__set_index]["cards"][self.__card_index]["view_count"] += increment
-        self.__json["flashcard_sets"][self.__set_index]["cards"][self.__card_index]["last_viewed"] = str(date.today())
+        self.__json["flashcard_sets"][self.__set_index]["cards"][self.__card_index]["last_viewed"] = str(datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
         save_json(self.__json)
 
 class Set:
