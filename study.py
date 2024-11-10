@@ -25,7 +25,7 @@ def set_graph_view(set, height, width, page):
     list_str_size = len(str(list_length + 1))
     list_combination_max = max(set.get_card(i).mastery + set.get_card(i).views for i in range(set.cards_length))
     
-    adjusted_page = page % (int(set.cards_length/list_length)+1)
+    adjusted_page = page % (int((set.cards_length/list_length)+.999))
     
     for i in range(adjusted_page*list_length, min((adjusted_page*list_length)+list_length,set.cards_length)):
         card = set.get_card(i)
@@ -46,10 +46,10 @@ def set_graph_view(set, height, width, page):
     axis_and_legend = Layout()
     axis_and_legend.split_row(
         Layout(" " * (list_str_size + 1) + "[sec]0[/sec]", ratio=1),
-        Layout(Align.left(f"[ter]{list_combination_max * 0.25:.0f}" if list_combination_max * 0.25 % 1 == 0 else f"[ter]{list_combination_max * 0.25:.1f}"), ratio=1),
-        Layout(Align.center(f"[sec]{list_combination_max * 0.5:.0f}" if list_combination_max * 0.5 % 1 == 0 else f"[sec]{list_combination_max * 0.5:.1f}"), ratio=1),
-        Layout(Align.right(f"[ter]{list_combination_max * 0.75:.0f}" if list_combination_max * 0.75 % 1 == 0 else f"[ter]{list_combination_max * 0.75:.1f}"), ratio=1),
-        Layout(Align.right(f"[sec]{list_combination_max:.0f}" if list_combination_max % 1 == 0 else f"[sec]{list_combination_max:.1f}"), ratio=1)
+        Layout(Align.left("[ter]"+str(int(list_combination_max * 0.25))), ratio=1),
+        Layout(Align.center("[sec]"+str(int(list_combination_max * 0.5))), ratio=1),
+        Layout(Align.right("[ter]"+str(int(list_combination_max * 0.75))), ratio=1),
+        Layout(Align.right("[sec]"+str(int(list_combination_max))), ratio=1)
     )
     graph.add_split(axis_and_legend)
     
