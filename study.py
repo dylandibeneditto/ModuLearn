@@ -13,37 +13,37 @@ from study_select import study_select
 
 def set_graph_view(set, height, width):
     graph = Layout()
-    graph.split_column(Layout(Align.center("█ - mastery | ░ - views"), size=1))
+    graph.split_column(Layout(Align.center("[a1]█[/a1] - mastery | [a1]░[/a1] - views"), size=1))
     
-    list_length = min(set.cards_length, height-2)
-    list_str_size = len(str(list_length+1))
+    list_length = min(set.cards_length, height - 2)
+    list_str_size = len(str(list_length + 1))
+    list_combination_max = max(set.get_card(i).mastery + set.get_card(i).views for i in range(list_length))
     
-    list_combination_max = max([set.get_card(i).mastery + set.get_card(i).views for i in range(list_length)])
+    for i in range(list_length):
+        card = set.get_card(i)
+        
+        data_label = Text(" "+"0"*(list_str_size-len(str(i+1)))+str(i+1)+" ", style=("sec" if i%2 == 0 else "ter"))
+        
+        data_density = (width - 3 - list_str_size) / max(1, list_combination_max)
+        
+        mastery_conv = int(card.mastery * data_density)
+        views_conv = int(card.views * data_density)
+        
+        mastery_text = Text("█" * mastery_conv, style="a1")
+        views_text = Text("░" * views_conv, style="a1")
+        
+        row_text = data_label + mastery_text + views_text
+        graph.add_split(Layout(row_text, size=1))
     
-    for i in range(0,list_length):
-        card = set.get_card(i-1, 0)
-        print(i)
-        
-        data_label = " "+"0"*(list_str_size-len(str(i)))+str(i)
-        
-        data_density = (width-3-list_str_size)/list_combination_max
-        
-        mastery_conv = int(card.mastery*data_density)
-        views_conv = int(card.views*data_density)
-        
-        data = " "+"█"*(mastery_conv)+"░"*(views_conv)
-        Console().print(data)
-        
-        graph.add_split(Layout(Text(data_label + data), size=1))
-        
-    axisAndLegend = Layout()
-    axisAndLegend.split_row(
-        Layout(" "*(list_str_size+1)+"0", ratio=1),
-        Layout(Align.center(str(list_combination_max//2)), ratio=1),
-        Layout(Align.right(str(list_combination_max)+" "), ratio=1)
+    axis_and_legend = Layout()
+    axis_and_legend.split_row(
+        Layout(" " * (list_str_size + 1) + "[sec]0[/sec]", ratio=1),
+        Layout(Align.left(f"[ter]{list_combination_max * 0.25:.0f}" if list_combination_max * 0.25 % 1 == 0 else f"[ter]{list_combination_max * 0.25:.1f}"), ratio=1),
+        Layout(Align.center(f"[sec]{list_combination_max * 0.5:.0f}" if list_combination_max * 0.5 % 1 == 0 else f"[sec]{list_combination_max * 0.5:.1f}"), ratio=1),
+        Layout(Align.right(f"[ter]{list_combination_max * 0.75:.0f}" if list_combination_max * 0.75 % 1 == 0 else f"[ter]{list_combination_max * 0.75:.1f}"), ratio=1),
+        Layout(Align.right(f"[sec]{list_combination_max:.0f}" if list_combination_max % 1 == 0 else f"[sec]{list_combination_max:.1f}"), ratio=1)
     )
-    
-    graph.add_split(axisAndLegend)
+    graph.add_split(axis_and_legend)
     
     return graph
 

@@ -12,5 +12,6 @@ main_theme = Theme({
     "a4fill": "#000000 on #d3869b",
     "a5fill": "#000000 on #fb4934",
     "sec": "rgb(120,120,120)",
+    "ter": "rgb(80,80,80)",
     "seci": "rgb(120,120,120) italic"
 })
