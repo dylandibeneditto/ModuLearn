@@ -11,15 +11,23 @@ from utils.set_helper import SetHelper
 from utils.theme import main_theme
 from study_select import study_select
 
-def set_graph_view(set, height, width):
+def set_graph_view(set, height, width, page):
+    title = Layout()
+    title.split_row(
+        Layout(Align.left(" [sec][a1]█[/a1] - mastery | [a1]░[/a1] - views"), ratio=1), 
+        Layout(Align.right("[sec]\[l] page down | \[p] page up "), ratio=1)
+    )
+    
     graph = Layout()
-    graph.split_column(Layout(Align.center("[a1]█[/a1] - mastery | [a1]░[/a1] - views"), size=1))
+    graph.split_column(Layout(title, size=1))
     
     list_length = min(set.cards_length, height - 2)
     list_str_size = len(str(list_length + 1))
-    list_combination_max = max(set.get_card(i).mastery + set.get_card(i).views for i in range(list_length))
+    list_combination_max = max(set.get_card(i).mastery + set.get_card(i).views for i in range(set.cards_length))
     
-    for i in range(list_length):
+    adjusted_page = page % (int(set.cards_length/list_length)+1)
+    
+    for i in range(adjusted_page*list_length, min((adjusted_page*list_length)+list_length,set.cards_length)):
         card = set.get_card(i)
         
         data_label = Text(" "+"0"*(list_str_size-len(str(i+1)))+str(i+1)+" ", style=("sec" if i%2 == 0 else "ter"))
@@ -47,7 +55,7 @@ def set_graph_view(set, height, width):
     
     return graph
 
-def study_set_view(set, index, flip, all_flip):
+def study_set_view(set, index, flip, all_flip, data_page):
     console = Console(theme=main_theme)
     console.height -= 2
     console.clear()
@@ -96,7 +104,7 @@ def study_set_view(set, index, flip, all_flip):
 
         card_review["card_review_toolbar"].update(card_review_toolbar)
         set_data["card_review"].update(card_review)
-        set_data["stats"].update(set_graph_view(set, console.height-panel_height, console.width // 3))
+        set_data["stats"].update(set_graph_view(set, console.height-panel_height, console.width // 3, data_page))
         main_layout["set_data"].update(set_data)
         main_layout["action_layout"].update(action_layout)
 
@@ -114,8 +122,10 @@ def study_set(set):
     
     set_ref.get_card(card_review_index).view()
     
+    set_data_page = 0
+    
     while not over:
-        study_set_view(set_ref, card_review_index, card_review_flip, card_review_all_flip)
+        study_set_view(set_ref, card_review_index, card_review_flip, card_review_all_flip, set_data_page)
         key = get_key()
         if key == "D":
             return 0
@@ -131,6 +141,10 @@ def study_set(set):
             set_ref.get_card(card_review_index).view()
         elif key == "w":
             card_review_all_flip = not card_review_all_flip
+        elif key == "p":
+            set_data_page -= 1
+        elif key == "l":
+            set_data_page += 1
         elif key == "q":
             return -1
         elif key == "1":
